@@ -55,13 +55,18 @@ const Navbar = () => {
   };
 
   const getNavLinkStyles = (path) => {
-    const pathname = window.location.pathname; // Access pathname safely
-    if (pathname === path) {
-      return "text-white bg-[#0d6efd] border-2 rounded-xl px-5 py-3";
-    } else {
-      return "text-black bg-transparent px-5 py-3";
-    }
-  };
+  if (typeof window === 'undefined') {
+    return "text-black bg-transparent px-5 py-3"; // Default style for SSR
+  }
+  
+  const pathname = window.location.pathname; // Access pathname safely on the client side
+  if (pathname === path) {
+    return "text-white bg-[#0d6efd] border-2 rounded-xl px-5 py-3";
+  } else {
+    return "text-black bg-transparent px-5 py-3";
+  }
+};
+
 
   const conditionalNavlinks = () => {
     if (payload) {
