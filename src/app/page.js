@@ -1,9 +1,15 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import Home from "@/components/Home/Home";
-import AuthHome from "@/components/Home/AuthHome";
+import dynamic from "next/dynamic";
+
+const Home = dynamic(() => import("@/components/Home/Home"), {
+  ssr: false,
+});
+const AuthHome = dynamic(() => import("@/components/Home/AuthHome"), {
+  ssr: false,
+});
 import axios from "axios";
-const page = () => {
+const Page = () => {
   const [payload, setPayload] = useState(null);
   useEffect(() => {
     const fetchPayload = async () => {
@@ -24,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

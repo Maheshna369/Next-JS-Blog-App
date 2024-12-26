@@ -6,6 +6,29 @@ connectDB();
 export const POST = async (request) => {
   try {
     const token = request.cookies.get("MaphyCookie")?.value;
+    const session= request.cookies.get("next-auth.session-token")?.value;
+    if(session){
+      const {Username}= await request.json();
+      if (!Username) {
+        return NextResponse.json(
+          { message: "Username is not present or can't be fetched by db" },
+          { status: 400 }
+        );
+      }
+      const UsernameExists = await blogsModel.findOne({ Username });
+      if (!UsernameExists) {
+        return NextResponse.json(
+          { message: "User is not present in the database, kindly register !" },
+          { status: 400 }
+        );
+      }
+      const posts = [...UsernameExists.Blogs].reverse();
+  
+      return NextResponse.json(
+        { posts: posts }, // Return the combined blogs array
+        { status: 200 }
+      );
+    }
     const secretKey = process.env.JWT_SECRET_KEY;
     const Username = jwt.decode(token, secretKey);
     if (!Username) {

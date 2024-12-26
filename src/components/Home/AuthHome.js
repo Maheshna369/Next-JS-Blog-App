@@ -7,7 +7,7 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { ModalContext } from "@/app/context/ModalContext";
 import { useContext } from "react";
-import Modal from "../Modal";
+
 
 const AuthHome = () => {
   const { modal, setModal } = useContext(ModalContext);
@@ -162,7 +162,6 @@ const AuthHome = () => {
           })}
         </div>
       </div>
-      {modal && <Modal />}
       <style jsx>{`
         @keyframes gradient {
           0% {

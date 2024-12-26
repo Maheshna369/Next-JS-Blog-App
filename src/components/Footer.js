@@ -18,50 +18,50 @@ const Footer = () => {
   console.log(`The value of modal is ${modal}`);
   return (
     <footer className="bg-black text-white absolute top-[1500px] xl:top-[1100px] bottom-0 xl:h-60 h-52 w-screen xl:w-full flex flex-col justify-between items-stretch gap-5 border-t-2 border-black">
-      <div className="first w-full xl:mx-5 mx-3 mt-5 xl:mt-10 flex flex-row justify-between items-stretch">
+      <div className="first w-full xl:mx-5 px-3 mt-5 xl:mt-10 flex flex-row justify-between items-stretch">
         <div className="links w-full flex h-full flex-col justify-center items-center gap-5">
-          <div className=" rounded-xl border-blue-600 text-yellow-400 xl:text-5xl text-2xl">
+          <div className=" rounded-xl border-blue-600 text-yellow-400 xl:text-5xl text-3xl">
             Follow Me
           </div>
-          <ul className="flex flex-row xl:gap-5 gap-3 mx-3 justify-evenly items-center">
+          <ul className="flex flex-row xl:gap-5 w-full gap-3 xl:mx-3 px-3 justify-evenly items-center">
             <Link href={""} passHref>
               <li
-                className="bg-white border-2 border-gray-200 rounded-[50%] p-3"
+                className="bg-white border-2 border-gray-200 rounded-[50%] p-1"
                 onClick={() => window.open(facebookLink, "_blank")}
               >
-                <Facebook src={facebookLink} height={25} width={25} />
+                <Facebook src={facebookLink} height={50} width={50} />
               </li>
             </Link>
             <Link href={""} passHref>
               <li
-                className="bg-white border-2 border-gray-200 rounded-[50%] p-3"
+                className="bg-white border-2 border-gray-200 rounded-[50%] p-1"
                 onClick={() => window.open(instagramLink, "_blank")}
               >
-                <Instagram className="rounded-[50%]" height={25} width={25} />
+                <Instagram className="rounded-[50%]" height={50} width={50} />
               </li>
             </Link>
             <Link href={""} passHref>
               <li
-                className="bg-white border-2 border-gray-200 rounded-[50%] p-3"
+                className="bg-white border-2 border-gray-200 rounded-[50%] p-1"
                 onClick={() => window.open(xLink, "_blank")}
               >
-                <X className="rounded-[50%]" height={25} width={25} />
+                <X className="rounded-[50%]" height={50} width={50} />
               </li>
             </Link>
             <Link href={""} passHref>
               <li
-                className="bg-white border-2 border-gray-200 rounded-[50%] p-3"
+                className="bg-white border-2 border-gray-200 rounded-[50%] p-1"
                 onClick={() => window.open(linkedinLink, "_blank")}
               >
-                <LinkedIn className="rounded-[50%]" height={25} width={25} />
+                <LinkedIn className="rounded-[50%]" height={50} width={50} />
               </li>
             </Link>
             <Link href={""} passHref>
               <li
-                className="bg-white border-2 border-gray-200 rounded-[50%] p-3"
+                className="bg-white border-2 border-gray-200 rounded-[50%] p-1"
                 onClick={() => window.open(githubLink, "_blank")}
               >
-                <Github height={25} width={25} />
+                <Github height={50} width={50} />
               </li>
             </Link>
           </ul>

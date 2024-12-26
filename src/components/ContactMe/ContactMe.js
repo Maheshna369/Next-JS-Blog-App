@@ -21,20 +21,23 @@ const ContactMe = () => {
   });
   const handleClick = async () => {
     try {
+      setLoading(true);
       if (
         userDetails.Name.trim() === "" ||
         userDetails.Age.trim() === "" ||
         userDetails.Gender.trim() === ""
       ) {
+        setLoading(false);
         return toast.warning("Fill all the Fields !");
       }
       const res = await axios.post("/api/payload");
       const payload = res.data.payload;
       if (!payload) {
+        setLoading(false);
         toast.info("First Register to get details of mine !");
         return;
       }
-      setLoading(true);
+
       const response = await axios.post("/api/contactme", userDetails);
       const data = response.data.developerDetails;
       setDeveloperDetails({
@@ -44,9 +47,9 @@ const ContactMe = () => {
       });
       setLoading(false);
       setModalOpen(true);
-      // setTimeout(()=>{
-      //   setModalOpen(false);
-      // }, 10000)
+      setTimeout(()=>{
+        setModalOpen(false);
+      }, 5000)
     } catch (error) {
       console.error(`Error while fetching data of developer is ${error}`);
       setLoading(false);
@@ -60,8 +63,8 @@ const ContactMe = () => {
   return (
     <>
       {loading && (
-        <div className="w-full h-full fixed inset-0 backdrop-blur-sm z-100 flex justify-center items-center">
-          <PropagateLoader size={"large"} />
+        <div className="w-full h-full fixed inset-0 backdrop-blur-sm z-[1000] flex justify-center items-center">
+          <PropagateLoader />
         </div>
       )}
       <ToastContainer position="top-center" transition={Slide} />

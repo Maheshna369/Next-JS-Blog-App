@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import React, { useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { PropagateLoader } from "react-spinners";
@@ -12,8 +13,8 @@ const PostModal = (props) => {
   const [Text, setText] = useState("");
   const [file, setFile] = useState("");
   const [blog, setBlog] = useState({ Title: "", Text: "" });
-
-  
+  const [username, setUsername] = useState("");
+  const { data: session } = useSession();
   // const handleText
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -30,6 +31,19 @@ const PostModal = (props) => {
     }
     try {
       setLoading(true);
+      if (payload === "exists") {
+        const Email = session.user.email;
+        const response = await axios.post("/api/blog", {
+          Title,
+          Text,
+          Username: Email,
+        });
+        const data = response.data;
+        toast.success(data.message);
+        setLoading(false);
+        window.location.reload();
+        return;
+      }
       const response = await axios.post("/api/blog", { Title, Text });
       const data = response.data;
       toast.success(data.message);
@@ -48,7 +62,9 @@ const PostModal = (props) => {
   const handleFileClick = (e) => {
     e.preventDefault();
     return toast.info(
-      `Sorry ${payload}, Photos and Videos can't be uploaded as i don't have funds to buy premium MONGODB Atlas package.`
+      `Sorry ${
+        payload === "exists" ? session.user.name : payload
+      }, Photos and Videos can't be uploaded in the MONGODB !`
     );
   };
   return (
@@ -81,7 +97,7 @@ const PostModal = (props) => {
                 onChange={(e) => handleTitleChange(e)}
                 value={Title}
                 type="text"
-                className="xl:h-10 h-8 w-[100%] bg-[#f0f2f5] text-[black] px-5 py-3 xl:text-2xl text-xl rounded-xl"
+                className="xl:h-10 h-10 w-[100%] bg-[#f0f2f5] text-[black] px-5 py-3 xl:text-2xl text-xl rounded-xl"
                 placeholder="Enter Title of Your Blog..."
               />
             </div>
@@ -91,23 +107,23 @@ const PostModal = (props) => {
                 onChange={(e) => handleTextChange(e)}
                 value={Text}
                 type="text"
-                className="xl:h-40 h-36 w-[100%] bg-[#f0f2f5] text-[black] resize-none xl:py-5 xl:px-5 px-3 py-3 xl:text-2xl text-xl rounded-xl"
+                className="xl:h-40 h-40 w-[100%] bg-[#f0f2f5] text-[black] resize-none xl:py-5 xl:px-5 px-3 py-3 xl:text-2xl text-xl rounded-xl"
                 placeholder="Describe your Blog..."
               />
             </div>
             <div className="flex flex-row justify-center items-center ">
               {/* <p className="text-sm">Add Photos or Videos to your blog 👉</p> */}
               <input
-              className="inline"
+                className="inline"
                 onChange={(e) => handleFileChange(e)}
                 type="file"
                 accept="image/*,video/*"
-                onClick={(e)=>handleFileClick(e)}
+                onClick={(e) => handleFileClick(e)}
               />
             </div>
             <button
               onClick={handleClick}
-              className="bg-[#0d6efd] text-white py-5 px-10 border-2 rounded-xl"
+              className="bg-[#0d6efd] text-white xl:py-5 xl:px-10 py-4 px-8 text-lg border-2 rounded-xl"
             >
               Post Blog
             </button>

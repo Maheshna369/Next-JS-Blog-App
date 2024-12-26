@@ -13,7 +13,6 @@ import Link from "next/link";
 import GoogleButton from "react-google-button";
 import { useContext } from "react";
 import { ModalContext } from "@/app/context/ModalContext";
-import Modal from "../Modal";
 const Login = () => {
   const { modal, setModal } = useContext(ModalContext);
   const { data: session } = useSession();
@@ -69,7 +68,7 @@ const Login = () => {
     <>
       <div className="absolute xl:top-24 top-20 bg-yellow-300 xl:h-[600px] h-[500px] xl:w-screen w-screen flex justify-center items-center">
         <Toaster position="top-center" />
-        <div className="flex flex-col justify-evenly bg-white xl:h-[450px] h-[400px] xl:w-[450px] w-[90%] items-center shadow-2xl border-2 border-white rounded-2xl">
+        <div className="flex flex-col justify-evenly bg-white xl:h-[450px] h-[400px] xl:w-[450px] w-[90%] items-center shadow-2xl border-2 border-white rounded-3xl">
           <h3 className="xl:text-4xl text-3xl">Login</h3>
 
           <div className="w-96 flex flex-col gap-2 my-2 justify-center items-center">
@@ -127,7 +126,7 @@ const Login = () => {
           </div>
           <div className="w-96 flex flex-row justify-end items-center mr-3">
             <p>
-              Don't Have an Account,{" "}
+              Don&apos;t Have an Account,{" "}
               <Link className="text-[#0d6efd]" href={"/register"}>
                 Register
               </Link>
@@ -137,13 +136,16 @@ const Login = () => {
           {oAuth()}
         </div>
       </div>
-
+      <div className="h-[500px] flex justify-center items-center">
+        <h1 className="text-black text-2xl absolute top-[700px] px-5">
+          There&apos;s a Blank Space !<br></br>Scroll Down to Follow Me !
+        </h1>
+      </div>
       {loading && (
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex h-screen w-screen justify-center items-center">
           <PulseLoader />
         </div>
       )}
-      {modal && <Modal />}
     </>
   );
 };

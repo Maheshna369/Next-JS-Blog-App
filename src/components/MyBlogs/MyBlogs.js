@@ -13,7 +13,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { PropagateLoader } from "react-spinners";
 import { useContext } from "react";
 import { ModalContext } from "@/app/context/ModalContext";
-import Modal from "../Modal";
 import CloseIcon from "@mui/icons-material/Close";
 
 const MyBlogs = () => {
@@ -56,6 +55,20 @@ const MyBlogs = () => {
         return toast.error("Blog is not present !");
       }
       const dbIndex = blog._id;
+      if(session){
+        const Email= session.user.email;
+        const response = await axios.post("/api/edit", {
+          dbIndex,
+          newTitle: editPost.newTitle,
+          newText: editPost.newText,
+          Username: Email
+        });
+        const data = response.data.message;
+        toast.success(data);
+        setLoading(false);
+        window.location.reload();
+        return;
+      }
       const response = await axios.post("/api/edit", {
         dbIndex,
         newTitle: editPost.newTitle,
@@ -77,6 +90,18 @@ const MyBlogs = () => {
         return post._id === id;
       });
       const dbIndex = post._id;
+      if(session){
+        const Email= session.user.email;
+        const response = await axios.post("/api/deletePost", {
+          dbIndex: dbIndex,
+          Username: Email
+        });
+        const data = response.data.message;
+        toast.success(data);
+        setLoading(false);
+        window.location.reload();
+        return;
+      }
       const response = await axios.post("/api/deletePost", {
         dbIndex: dbIndex,
       });
@@ -93,8 +118,8 @@ const MyBlogs = () => {
     const getPayload = async () => {
       try {
         const response = await axios.post("/api/payload");
-        if (response.data.payload === "exists") {
-          setPayload(session.user.email);
+        if (response.data.payload === "") {
+          setPayload(session.user.name);
         }
         setPayload(response.data.payload);
       } catch (err) {
@@ -106,12 +131,23 @@ const MyBlogs = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
+        if (session) {
+          const Email = session.user.email;
+          const response = await axios.post("/api/posts", { Username: Email });
+          const posts = response.data.posts;
+          setPosts(posts);
+          setLoading(false);
+          return;
+        }
         const response = await axios.post("/api/posts");
         const posts = response.data.posts;
         setPosts(posts);
+        setLoading(false);
       } catch (err) {
         console.error(`Error while fetching the posts from backend is ${err}`);
+        setLoading(false);
       }
     };
     fetchPosts();
@@ -153,14 +189,15 @@ const MyBlogs = () => {
   // };
   return (
     <>
-      <ToastContainer style={{height: "50px", width: "200px"}} position="right"/>
       <main className="xl:h-[900px] xl:w-full h-[1500px] w-screen absolute xl:top-24 top-20 flex xl:flex-row flex-col xl:gap-10 gap-5 justify-center items-center bg-gray-500 xl:my-5">
         <section className="side-bar absolute xl:left-0 top-5 xl:h-[800px] h-32 xl:ml-5 xl:w-[20%] w-[80%] bg-white  border-2 rounded-2xl">
           <div className="flex flex-col justify-center items-center">
             <Image
               onClick={() =>
                 toast.info(
-                  `Sorry ${payload}, Photos and Videos can't be uploaded as i don't have funds to buy premium MONGODB Atlas package.`
+                  `Sorry ${
+                    payload === "exists" ? session.user.name : payload
+                  }, Photos and Videos can't be uploaded as i don't have funds to buy premium MONGODB Atlas package.`
                 )
               }
               src="/defaultImage.jpg"
@@ -168,12 +205,16 @@ const MyBlogs = () => {
               width={100}
               alt="Image of a default User"
             />
-            <p className="text-lg">{payload}</p>
+            <p className="text-lg">
+              {payload === "exists" ? session.user.name : payload}
+            </p>
           </div>
         </section>
         <section className="main absolute xl:right-0 top-40 xl:h-[800px] xl:w-[75%] h-[1350px] w-[80%] flex flex-col xl:gap-5 gap-3">
           <div className="xl:h-[200px] h-[150px] w-[100%] bg-white border-2 rounded-2xl flex flex-col justify-evenly items-center">
-            <h1 className="xl:text-xl text-2xl font-extrabold">Post Your Blog</h1>
+            <h1 className="xl:text-xl text-2xl font-extrabold">
+              Post Your Blog
+            </h1>
             <input
               className="border-2 rounded-2xl w-[85%] h-10 bg-[#F0F2F5] text-[#65686C] px-5"
               type="text"
@@ -193,7 +234,9 @@ const MyBlogs = () => {
                     className="flex flex-col  justify-evenly items-center w-[90%] border-2 bg-white rounded-xl shadow-2xl mb-3"
                   >
                     <div className="flex flex-row justify-between items-center w-full mx-5 border-b-2 border-b-gray-400">
-                      <span className="mx-5 text-sm">Posted on {formattedDate}</span>
+                      <span className="mx-5 text-sm">
+                        Posted on {formattedDate}
+                      </span>
 
                       <div className="flex flex-row justify-center items-center">
                         {/* <span
@@ -343,7 +386,7 @@ const MyBlogs = () => {
           </div>
         </div>
       )}
-      {modal && <Modal />}
+      <ToastContainer className="z-[100]" position="top-center" />
     </>
   );
 };
