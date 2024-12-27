@@ -7,7 +7,7 @@ connectDB();
 export const POST = async (request) => {
   const secretKey = process.env.JWT_SECRET_KEY;
   const token = request.cookies.get("MaphyCookie")?.value;
-  const session = request.cookies.get("next-auth.session-token")?.value;
+  const session = request.cookies.get("_Secure-next-auth.session-token")?.value;
   if (session) {
     const { dbIndex, Username } = await request.json();
     const UsernameExists = await blogsModel.findOne({ Username });
