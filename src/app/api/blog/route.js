@@ -7,7 +7,7 @@ connectDB();
 export const POST = async (request) => {
   try {
     const token = request.cookies.get("MaphyCookie")?.value;
-    const session = request.cookies.get("next-auth.session-token");
+    const session = request.cookies.get("_Secure-next-auth.session-token");
     if (session) {
       const { Title, Text, Username } = await request.json();
       const date = new Date();
