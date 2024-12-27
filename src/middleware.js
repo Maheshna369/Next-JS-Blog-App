@@ -12,18 +12,25 @@ export const middleware = (request) => {
       request.nextUrl.pathname === "/login"
     ) {
       if (token || session) {
+        console.log(`The MaphyCookie is ${token}`);
+        console.log(`The _Secure-next-auth.session-token is ${session}`);
         return NextResponse.redirect(new URL("/", request.url));
       } else if (!token && !session) {
+        console.log(`The MaphyCookie is ${token}`);
+        console.log(`The _Secure-next-auth.session-token is ${session}`);
         return;
       }
     } else if (request.nextUrl.pathname === "/myblogs") {
       if (token || session) {
+        console.log(`The MaphyCookie is ${token}`);
+        console.log(`The _Secure-next-auth.session-token is ${session}`);
         return;
       } else if (!token && !session) {
+        console.log(`The MaphyCookie is ${token}`);
+        console.log(`The _Secure-next-auth.session-token is ${session}`);
         return NextResponse.redirect(new URL("/register", request.url));
       }
     }
-    console.log(`Cookie is: ${token}`);
   } catch (err) {
     console.log(`Error in middleware is ${err}`);
   }
