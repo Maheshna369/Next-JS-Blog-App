@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export const POST = (request) => {
   try {
     const token = request.cookies.get("MaphyCookie")?.value;
-    const session = request.cookies.get("next-auth.session-token")?.value;
+    const session = request.cookies.get("_Secure-next-auth.session-token")?.value;
     if (!token && !session) {
       //   const payload = "";
       return NextResponse.json({ payload: "" });
