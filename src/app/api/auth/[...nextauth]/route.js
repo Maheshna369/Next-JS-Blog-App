@@ -21,6 +21,16 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+   cookies: {
+    sessionToken: {
+      name: `_Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production", // Secure cookies in production
+      },
+    },
+  },
   session: {
     strategy: "jwt",
   },
