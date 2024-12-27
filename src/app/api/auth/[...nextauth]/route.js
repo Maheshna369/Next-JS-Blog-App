@@ -21,13 +21,14 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-   cookies: {
+  cookies: {
     sessionToken: {
       name: `_Secure-next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production", // Secure cookies in production
+        sameSite: "lax", // Or "strict", depending on your app's requirements
+        secure: process.env.NODE_ENV === "production",
+        path: "/", // Ensure the cookie is accessible across the entire app
       },
     },
   },
