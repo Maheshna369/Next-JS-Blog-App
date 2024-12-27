@@ -5,7 +5,7 @@ export const middleware = (request) => {
   //   const secretKey = process.env.JWT_SECRET_KEY;
   try {
     const token = request.cookies.get("MaphyCookie")?.value;
-    const session = request.cookies.get("next-auth.session-token")?.value;
+    const session = request.cookies.get("_Secure-next-auth.session-token")?.value;
     //   const isTokenCorrect = jwt.verify(token, secretKey);
     if (
       request.nextUrl.pathname === "/register" ||
