@@ -7,7 +7,8 @@ import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import { ModalContext } from "@/app/context/ModalContext";
 import { useContext } from "react";
-
+import aos from "aos";
+import "aos/dist/aos.css";
 
 const AuthHome = () => {
   const { modal, setModal } = useContext(ModalContext);
@@ -18,6 +19,9 @@ const AuthHome = () => {
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState("");
+   useEffect(() => {
+    aos.init({ duration: 1200 });
+  });
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -111,7 +115,7 @@ const AuthHome = () => {
       )}
       <div className="xl:h-[1000px] xl:w-full h-[1500px] w-screen absolute xl:top-24 top-20 bg-gray-500 flex justify-center items-center gradient-background">
         <div className="w-[85%] xl:h-[800px] h-[1200px] absolute top-20 bg-gray-200 shadow-lg overflow-auto flex flex-col justify-start items-center border-2 rounded-2xl ">
-          <h1 className="text-3xl font-extrabold border-b-2 border-b-gray-400 xl:my-7 my-5 py-3 text-blue-500">
+          <h1 className="text-3xl font-extrabold border-b-2 border-b-gray-400 xl:my-7 my-5 py-3 text-blue-500" data-aos="fade-up">
             Recent Blogs
           </h1>
           {posts.map((post) => {
@@ -122,7 +126,7 @@ const AuthHome = () => {
                 key={post.Blogs._id}
                 className="w-[85%] border-2 border-black rounded-xl pb-4 my-5 bg-white"
               >
-                <div className="flex flex-row justify-between items-center py-3 border-b-2 border-b-gray-400">
+                <div className="flex flex-row justify-between items-center py-3 border-b-2 border-b-gray-400" data-aos="fade-up">
                   <span className="mx-5 my-5 text-sm">
                     Posted by {post.Username} on {formattedDate}{" "}
                   </span>
@@ -148,12 +152,12 @@ const AuthHome = () => {
                   </span>
                 </div>
                 <div className="flex flex-col w-full">
-                  <div className="w-full flex justify-center items-center">
+                  <div className="w-full flex justify-center items-center" data-aos="fade-up">
                     <span className="xl:text-3xl text-2xl font-extrabold xl:px-10 px-5 py-3 border-b-2">
                       {post.Blogs.Title}
                     </span>
                   </div>
-                  <p className="xl:my-10 xl:mx-5 mx-3 my-5 font-medium text-lg">
+                  <p className="xl:my-10 xl:mx-5 mx-3 my-5 font-medium text-lg" data-aos="fade-up">
                     {post.Blogs.Text}
                   </p>
                 </div>
