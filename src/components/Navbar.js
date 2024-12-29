@@ -157,49 +157,42 @@ const Navbar = () => {
         >
           <MenuIcon />
         </button>
-        <div
-          ref={ref}
-          onClick={(e) => closeMenuBar(e)}
-          className={
-            menuOpen
-              ? "h-screen w-screen flex flex-col fixed inset-0 justify-center items-center z-100"
-              : "h-full w-full xl:hidden hidden justify-end items-center"
-          }
-        >
-          <div className="flex justify-end items-center w-[50vw] absolute top-2 right-0 mr-3">
-            <CloseIcon
-              onClick={() => setMenuOpen(false)}
-              color="black"
-              className="place-self-end text-black"
-            />
-          </div>
-          <div className="h-[90vh] w-[50vw]  absolute right-0 bg-gray-300 border-2 rounded-xl mr-3">
-            <ul className="mx-3 h-full w-full flex flex-col list-none gap-3 justify-evenly items-center">
-              <Link href={"/"} className="text-black hover:text-gray-700">
-                <li className={`${getNavLinkStyles("/")} text-lg`}>Home</li>
-              </Link>
+       <div
+  ref={ref}
+  onClick={(e) => closeMenuBar(e)}
+  className={`${
+    menuOpen
+      ? "translate-x-0"
+      : "translate-x-full"
+  } h-screen w-screen fixed inset-0 flex flex-col justify-center items-center z-100 transition-transform duration-500`}
+>
+  <div className="flex justify-end items-center w-[50vw] absolute top-2 right-0 mr-3">
+    <CloseIcon
+      onClick={() => setMenuOpen(false)}
+      color="black"
+      className="place-self-end text-black"
+    />
+  </div>
+  <div className="h-[90vh] w-[50vw] absolute right-0 bg-gray-300 border-2 rounded-xl mr-3">
+    <ul className="mx-3 h-full w-full flex flex-col list-none gap-3 justify-evenly items-center">
+      <Link href={"/"} className="text-black hover:text-gray-700">
+        <li className={`${getNavLinkStyles("/")} text-lg`}>Home</li>
+      </Link>
 
-              {conditionalNavlinks()}
+      {conditionalNavlinks()}
 
-              <Link
-                href={"/aboutme"}
-                className="text-black hover:text-gray-700"
-              >
-                <li className={`${getNavLinkStyles("/aboutme")} text-lg`}>
-                  About Me
-                </li>
-              </Link>
-              <Link
-                href={"/contactme"}
-                className="text-black hover:text-gray-700"
-              >
-                <li className={`${getNavLinkStyles("/contactme")} text-lg`}>
-                  Contact Me
-                </li>
-              </Link>
-            </ul>
-          </div>
-        </div>
+      <Link href={"/aboutme"} className="text-black hover:text-gray-700">
+        <li className={`${getNavLinkStyles("/aboutme")} text-lg`}>About Me</li>
+      </Link>
+      <Link href={"/contactme"} className="text-black hover:text-gray-700">
+        <li className={`${getNavLinkStyles("/contactme")} text-lg`}>
+          Contact Me
+        </li>
+      </Link>
+    </ul>
+  </div>
+</div>
+
       </nav>
     </>
   );
